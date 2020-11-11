@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * @author : <a href="mailto:liuqi@ebnew.com">liuqi</a>
@@ -73,6 +74,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/doLogin")
                 .usernameParameter("name")
                 .passwordParameter("passwd")
+                .defaultSuccessUrl("/index")
+                .failureUrl("/error")
+                .permitAll()
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
+                .logoutSuccessUrl("/index")
+                .deleteCookies()
+                .clearAuthentication(true)
+                .invalidateHttpSession(true)
                 .permitAll()
                 .and()
                 .csrf()
